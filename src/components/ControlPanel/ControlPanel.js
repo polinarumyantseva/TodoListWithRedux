@@ -1,25 +1,26 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectTodoList, selectInputValue, selectIsSortValue } from '../../store/selectors';
+import { selectInputValue } from '../../store/selectors';
 import {
 	addToTodoList,
 	setInputValue,
 	resetInputValue,
-	setIsSorted,
 	searchTodoItem,
-	setTodoList,
+	resetTodoList,
+	sortTodoList,
 } from '../../store/actions';
 import styles from './controlPanel.module.css';
 
 export const ControlPanel = () => {
 	const dispatch = useDispatch();
-	const todosList = useSelector(selectTodoList);
 	const todoItemInputValue = useSelector(selectInputValue);
-	const isSorted = useSelector(selectIsSortValue);
+
+	const [isSorted, setIsSorted] = useState(false);
 
 	const onClear = () => {
 		dispatch(resetInputValue);
-		dispatch(setIsSorted(false));
-		dispatch(setTodoList());
+		dispatch(resetTodoList);
+		setIsSorted(false);
 	};
 
 	const addTodoItem = () => {
@@ -28,20 +29,12 @@ export const ControlPanel = () => {
 	};
 
 	const searchTodos = () => {
-		const foundItem = todosList.filter((item) => item.title.indexOf(todoItemInputValue) !== -1);
-		dispatch(searchTodoItem(foundItem));
+		dispatch(searchTodoItem(todoItemInputValue));
 	};
 
-	const sortTodoList = (list) => list.sort((a, b) => (a.title > b.title ? 1 : -1));
 	const sortItem = ({ target }) => {
-		dispatch(setIsSorted(target.checked));
-
-		if (target.checked) {
-			const sortedTodos = sortTodoList(todosList);
-			dispatch(searchTodoItem(sortedTodos));
-		} else {
-			dispatch(setTodoList());
-		}
+		setIsSorted(target.checked);
+		dispatch(sortTodoList);
 	};
 
 	return (

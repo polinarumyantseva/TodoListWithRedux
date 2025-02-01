@@ -7,10 +7,16 @@ export const TodosList = () => {
 	const todosList = useSelector(selectTodoList);
 
 	return (
-		<ul className={styles['todos-list']}>
-			{todosList.map(({ id, title }) => (
-				<TodoItem key={id} id={id} title={title} />
-			))}
-		</ul>
+		<>
+			{todosList && todosList.length > 0 ? (
+				<ul className={styles['todos-list']}>
+					{todosList.map(({ id, title }) => (
+						<TodoItem key={id} id={id} title={title} />
+					))}
+				</ul>
+			) : (
+				<p>Нет данных</p>
+			)}
+		</>
 	);
 };

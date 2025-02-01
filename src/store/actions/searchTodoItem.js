@@ -1,3 +1,3 @@
-import { SET_TODO_LIST } from '../reducers/todoListReducer';
+import { SEARCH_TODO_ITEM } from './actionTypes';
 
-export const searchTodoItem = (value) => ({ type: SET_TODO_LIST, payload: value });
+export const searchTodoItem = (value) => ({ type: SEARCH_TODO_ITEM, payload: value });
